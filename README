@@ -1,1 +1,36 @@
-'My Project' 
+'My Project'
+
+## Git-backed distributed ledger
+
+This repository includes a small append-only JSONL ledger with a SHA-256 hash
+chain. It uses only the Python standard library.
+
+```powershell
+python .\ledger.py add "Example: Alice pays Bob 10"
+python .\ledger.py verify
+git add .\ledger.py .\ledger.jsonl
+git commit -m "Record ledger entry"
+git push
+```
+
+To get another copy, clone or pull this repository. Before adding a new entry,
+pull the latest changes, then verify the ledger. Concurrent edits may conflict
+and need to be reconciled before committing.
+
+The hash chain detects accidental or unsynchronized edits; it is not consensus,
+identity verification, or a guarantee against someone rewriting and recommitting
+the entire history. Do not use this toy example as a production financial ledger.
+
+## Simple Excel-friendly ledger
+
+Open `ledger.csv` in Excel and add one transaction per row. The columns are
+date, recorder, description, income, expense, and balance. For a group, everyone
+uses the same file and puts their name from the roster in the recorder column.
+CSV is plain text, so Git can show changes more clearly and merge them more
+easily than an `.xlsx` workbook.
+
+Before editing, pull the latest version; after editing, review the diff and
+commit the change. Concurrent edits can conflict. Git records which configured
+account made a commit, but neither that nor the recorder column verifies a
+person's identity. This is a shared, versioned ledger, not a blockchain with
+consensus or protection from someone changing the file and committing it.
